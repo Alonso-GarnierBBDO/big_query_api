@@ -20,7 +20,7 @@ trait BigQueryTrait {
         
     }
 
-    public function validateData($tableID, $tableName, $uniqueKey){
+    public function validateData($tableID, $tableName){
 
         $logs = [];
         $create = '';
@@ -29,20 +29,20 @@ trait BigQueryTrait {
 
         if(!$this->validateTable($tableID)){
 
-            $create = $this->createNewTable($tableID, $tableName, $uniqueKey);
+            $create = $this->createNewTable($tableID, $tableName);
             $status = $create['status'];
 
             $logs = array_merge($logs, (array)$create['msgs']);
 
             if($status == 201){
-                $inject = $this->injectData($tableID, $tableName, $uniqueKey);
+                $inject = $this->injectData($tableID, $tableName);
                 $status = $inject['status'];
                 $logs = array_merge($logs, (array)$inject['msgs']);
             }
 
         }else{
             
-            $inject = $this->injectData($tableID, $tableName, $uniqueKey);
+            $inject = $this->injectData($tableID, $tableName);
             $status = $inject['status'];
             $logs = array_merge($logs, (array)$inject['msgs']);
 
@@ -58,7 +58,7 @@ trait BigQueryTrait {
     /**
      * Creamos la tabla
      */
-    protected function createNewTable($tableID, $tableName, $uniqueKey){
+    protected function createNewTable($tableID, $tableName){
 
         try{
             $columns = $this->getColumnsDataBase($tableName);
@@ -84,12 +84,12 @@ trait BigQueryTrait {
 
     }
 
-    public function injectData($tableID, $tableName, $uniqueKey){
+    public function injectData($tableID, $tableName){
 
         try{
 
             $data = $this->getAllItemsSave($tableName);
-            $response = $this->bigQueryService->upsertData($this->datasetId, $tableID, $data, $uniqueKey);
+            $response = $this->bigQueryService->upsertData($this->datasetId, $tableID, $data);
             return [
                 "status" => 201,
                 "msgs" => [

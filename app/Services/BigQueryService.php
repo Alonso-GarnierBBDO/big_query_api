@@ -72,20 +72,24 @@ class BigQueryService
         }
     }
     
-    public function upsertData($datasetId, $tableId, $data, $uniqueKey)
+    public function upsertData($datasetId, $tableId, $data)
     {   
         
         try{
-            $searchItems = $this->bigQuery->query(
-                "SELECT * FROM `" . env('GOOGLE_CLOUD_PROJECT_ID') . ".$datasetId.$tableId" . "`"
+            $removeItems = $this->bigQuery->query(
+                "DELETE FROM `" . env('GOOGLE_CLOUD_PROJECT_ID') . ".$datasetId.$tableId" . "` WHERE TRUE"
             );
     
-            $updateData = [];
+            $queryResults = $this->bigQuery->runQuery($removeItems);
+
+            if (!empty($data)) {
+                $this->insert($datasetId, $tableId, $data);
+            }
+    
+            /*$updateData = [];
             $createData = [];
             $bigQueryData = [];
-    
-            $queryResults = $this->bigQuery->runQuery($searchItems);
-    
+
             foreach($queryResults as $rows){
                 array_push($bigQueryData, $rows);
             }
@@ -105,7 +109,7 @@ class BigQueryService
             }
     
             /** Remove duplicate items */
-            $updateData = array_unique($updateData, SORT_REGULAR);
+            /*$updateData = array_unique($updateData, SORT_REGULAR);
     
             if(count($updateData)){
                 foreach($updateData as $row){  
@@ -115,7 +119,7 @@ class BigQueryService
     
             if(count($createData)){
                 $this->insert($datasetId, $tableId, $createData);
-            }
+            }*/
 
             return true;
 
