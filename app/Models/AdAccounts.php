@@ -10,7 +10,6 @@ class AdAccounts extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
         'name',
         'account_id',
         'account_status',

@@ -1,83 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Sync;
+namespace App\Http\Controllers\Authorized\Facebook;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Services\BigQueryService;
-use App\Models\AdAccounts;
-use App\Traits\BigQueryTrait;
-use App\Traits\ArraysConvertsTrait;
 use Illuminate\Support\Facades\Http;
 use App\Models\AdInsights;
+use App\Models\AdAccounts;
 
-class GoogleController extends Controller
+class AdInsightsController extends Controller
 {
-
-    use BigQueryTrait;
-    use ArraysConvertsTrait;
-
-    public function __construct()
-    {   
-        $this->setBigQueryParameters();
-    }
-
     public function index(){
-
-        $allLogs = [];
-        $allStatus = [];
-        $status = 201;
-
-        try{
-
-            // Crea ejecutaron todas las cuentas de facebook
-
-            /*$accounts = $this->adAccoundts();
-            $allLogs = array_merge($allLogs, $accounts['logs']);
-
-            array_push($allStatus, $accounts['status']);
-
-            */
-
-            $insightsStore = $this->storeInsights();
-            $allLogs = array_merge($allLogs, $insightsStore['logs']);
-            array_push($allStatus, $insightsStore['status']);
-            
-
-            if(in_array(400, $allStatus)){
-                $status = 400;
-            }
-
-            return response()->json([
-                'data' => [
-                    'status' => $status,
-                    'logs' => $allLogs
-                ]
-            ])->setStatusCode($status);
-
-        }catch(err){
-            return response()->json([
-                'data' => [
-                    'status' => 400,
-                    'msg' => 'An error occurred while executing the query'
-                ]
-            ])->setStatusCode(400);
-        }
-    }
-
-    protected function adAccoundts(){
-
-        $nameAccound = 'ad_accounts';
-        $accoundID = 'account_id';
-        $tableName = 'Meta_AD_Accounts';
-
-        $adAccountsCreate = $this->validateData($tableName, $nameAccound, $accoundID);
-
-        return $adAccountsCreate;
-
-    }
-
-    protected function storeInsights(){
 
         set_time_limit(120);
 
@@ -289,29 +222,16 @@ class GoogleController extends Controller
                         ]
                     );
                 }
-
-            }else{
-                $validate = false;
             }
-
         }
 
-        if($validate){
-            return [
-                'status' => 200,
-                'logs' => [
-                    'Account insights data was saved successfully'
-                ]
-            ];
-        }
 
-        return [
-            'status' => 400,
-            'logs' => [
-                'An error occurred while saving the insights data'
+        return response()->json([
+            'data' => [
+                'code' => 202,
+                'msg' => 'Data synchronized successfully'
             ]
-        ];
+        ])->setStatusCode(202);
 
     }
-
 }
