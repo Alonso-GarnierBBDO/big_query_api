@@ -17,8 +17,7 @@ class AdAccountsController extends Controller
     public function index(Request $request)
     {
 
-        $user = $request->user();
-        $adAccounts = AdAccounts::where('user_id', $user->id)->get();
+        $adAccounts = AdAccounts::all();
 
 
         if(count($adAccounts)){
@@ -56,7 +55,6 @@ class AdAccountsController extends Controller
     {
         $api = env('API_URL_FACEBOOK');
         $token = env('API_FACEBOOK_TOKEN');
-        $user = $request->user();
 
 
         if(!$api || !$token){
@@ -122,7 +120,6 @@ class AdAccountsController extends Controller
 
             AdAccounts::updateOrCreate(
                 [
-                    'user_id' => $user->id,
                     'account_id' => $id,
                 ],
                 [
@@ -228,8 +225,7 @@ class AdAccountsController extends Controller
     public function show(Request $request, string $id)
     {
 
-        $user = $request->user();
-        $adAccount = AdAccounts::where('slug', $id)->where('user_id', $user->id)->first();
+        $adAccount = AdAccounts::where('slug', $id)->first();
 
         if($adAccount){
             return response()->json([
@@ -284,7 +280,6 @@ class AdAccountsController extends Controller
     public function update(Request $request, string $id)
     {
 
-        $user = $request->user();
         $api = env('API_URL_FACEBOOK');
         $token = env('API_FACEBOOK_TOKEN');
 
@@ -297,7 +292,7 @@ class AdAccountsController extends Controller
             ])->setStatusCode(403);
         }
 
-        $adAccount = AdAccounts::where('slug', $id)->where('user_id', $user->id)->first();
+        $adAccount = AdAccounts::where('slug', $id)->first();
         
 
         /**

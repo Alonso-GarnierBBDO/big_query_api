@@ -1,0 +1,81 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class AdInsights extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'target',
+        'date_preset',
+        'date_start',
+        'data_end',
+        'time_increment',
+        'level',
+        'account_currency',
+        'action_attribution_windows',
+        'ad_account_id',
+        'ad_account_name',
+        'campaign_id',
+        'campaign_name',
+        'ad_set_id',
+        'ad_set_name',
+        'ad_id',
+        'ad_name',
+        'clicks',
+        'conversion_rate_ranking',
+        'cost_per_estimated_ad_recallers',
+        'cost_per_inline_link_click',
+        'cost_per_inline_post_engagement',
+        'cost_per_unique_click',
+        'cost_per_unique_inline_link_click',
+        'cpc',
+        'cpm',
+        'cpp',
+        'ctr',
+        'estimated_ad_recall_rate',
+        'estimated_ad_recall_rate',
+        'estimated_ad_recallers',
+        'frequency',
+        'impressions',
+        'inline_link_clicks',
+        'inline_link_clicks_counter',
+        'inline_post_engagement',
+        'instant_experience_clicks_to_open',
+        'instant_experience_clicks_to_start',
+        'instant_experience_outbound_clicks',
+        'objective',
+        'qualityRanking',
+        'reach',
+        'spend',
+        'unique_clicks',
+        'unique_ctr',
+        'unique_inline_link_clicks',
+        'unique_inline_link_click_counter',
+        'unique_link_clicks_counter',
+        'checkins',
+        'event_responses',
+        'link_clicks',
+        'offer_saves',
+        'outbound_clicks',
+        'page_engagements',
+        'page_likes',
+        'page_mentions',
+        'page_photo_views',
+        'post_comments',
+        'post_engagements',
+        'post_shares',
+        'post_reactions',
+        'page_tab_views',
+        'video_3_second_views',
+        'region',
+        'ad_effective_status',
+        'use_async',
+        'default_summary',
+    ];
+
+}

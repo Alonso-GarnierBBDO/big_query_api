@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('ad_accounts', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->unsigned()->nullable(); 
             $table->string('name');
             $table->string('account_id');
             $table->string('account_status')->nullable();
@@ -36,7 +35,6 @@ return new class extends Migration
             $table->string('slug');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
